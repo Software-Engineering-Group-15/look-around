@@ -9,20 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LookAroundDemo">
-        <activity android:name=".FindPasswordActivity"></activity>
+        <activity android:name=".ControllerActivity">
+        </activity>
+        <activity android:name=".FindPasswordActivity" />
         <activity
             android:name=".NewPostActivity"
-            android:parentActivityName=".MapActivity"></activity>
-        <activity
-            android:name=".UserProfileActivity"
-            android:parentActivityName=".MapActivity"></activity>
-        <activity
-            android:name=".FavouriteActivity"
-            android:parentActivityName=".MapActivity"></activity>
-        <activity
-            android:name=".SearchActivity"
-            android:parentActivityName=".MapActivity"></activity>
-        <activity android:name=".MapActivity" />
+            android:parentActivityName=".ControllerActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity">
