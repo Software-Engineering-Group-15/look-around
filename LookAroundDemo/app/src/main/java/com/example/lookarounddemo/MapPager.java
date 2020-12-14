@@ -8,12 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.widget.LinearLayout;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
@@ -28,7 +22,6 @@ import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.Projection;
 import com.amap.api.maps.model.BitmapDescriptorFactory;
-import com.amap.api.maps.model.CameraPosition;
 import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
@@ -37,9 +30,7 @@ import com.example.lookarounddemo.data.myMarker;
 import com.jpeng.jptabbar.JPTabBar;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import androidx.fragment.app.Fragment;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -62,8 +53,9 @@ public class MapPager extends Fragment implements LocationSource,
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
     private MarkersArray mMarkers = new MarkersArray();
-
-
+    private boolean justPosted = false;
+    private double cLa;
+    private double cLo;
     boolean useMoveToLocationWithMapMode = true;
 
     //自定义定位小蓝点的Marker
@@ -77,10 +69,14 @@ public class MapPager extends Fragment implements LocationSource,
         Log.i("amap","进入onCreateView状态");
         mActivity = getActivity();
         View layout = inflater.inflate(R.layout.pager_map,null);//设置对应的XML布局文件
-
         mapView = (MapView) layout.findViewById(R.id.map);
         mapView.onCreate(savedInstanceState);// 此方法必须重写
 
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            justPosted = bundle.getBoolean("just_post");
+            Log.i("new", "刚刚新建了一个post");
+        }
         init();
         return layout;
     }
@@ -181,13 +177,15 @@ public class MapPager extends Fragment implements LocationSource,
         if (mListener != null && amapLocation != null) {
             if (amapLocation != null
                     && amapLocation.getErrorCode() == 0) {
-                LatLng latLng = new LatLng(amapLocation.getLatitude(), amapLocation.getLongitude());
+                cLa = amapLocation.getLatitude();
+                cLo = amapLocation.getLongitude();
+                LatLng latLng = new LatLng(cLa, cLo);
                 //展示自定义定位小蓝点
                 if(locationMarker == null) {
                     Log.i("amap","首次定位");
                     //首次定位
                     locationMarker = aMap.addMarker(new MarkerOptions().position(latLng)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher_foreground))
+                            .icon(BitmapDescriptorFactory.fromView(getMyView(0)))
                             .anchor(0.5f, 0.5f));
 
                     //首次定位,选择移动到地图中心点并修改级别到15级
@@ -202,7 +200,7 @@ public class MapPager extends Fragment implements LocationSource,
                     }
 
                 }
-                mMarkers.ArrayUpdate();
+                mMarkers.ArrayUpdate(cLa, cLo);
                 showMarkers();
             }
             else {
@@ -227,6 +225,22 @@ public class MapPager extends Fragment implements LocationSource,
         }
     }
 
+    //自定义高德标点
+    protected View getMyView(int color) {
+        View view = null;
+        if(color == 0){
+            view = getActivity().getLayoutInflater().inflate(R.layout.marker_location, null);
+        }
+        else if(color == 1){
+            view = getActivity().getLayoutInflater().inflate(R.layout.marker_blue, null);
+        }
+        else if(color == 2){
+            view = getActivity().getLayoutInflater().inflate(R.layout.marker_red, null);
+        }
+
+        return view;
+
+    }
     /**
      * 同时修改自定义定位小蓝点和地图的位置
      * @param latLng
@@ -332,12 +346,22 @@ public class MapPager extends Fragment implements LocationSource,
 
 
     private void showMarkers() {
+        if(justPosted){
+            mMarkers.addNewpost(cLa, cLo);
+            justPosted = false;
+        }
         int size = mMarkers.size();
         for (int j = 0; j < size; j++) {
             myMarker m = mMarkers.get(j);
+            boolean ifnew = m.getIfnew();
+            int color = 1;
+            if(ifnew)
+                color = 2;
             aMap.addMarker(new MarkerOptions().position(new LatLng(m.getLatitude(), m.getLongitude()))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher_foreground))
-                    .anchor(0.5f, 0.5f));
+                    .icon(BitmapDescriptorFactory.fromView(getMyView(color)))
+                    .anchor(0.5f, 1.0f)
+                    .title(m.getTitle()))
+            ;
         }
         Log.i("amap","展示标志");
     }

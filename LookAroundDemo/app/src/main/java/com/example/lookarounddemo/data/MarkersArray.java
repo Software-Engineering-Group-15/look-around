@@ -14,9 +14,24 @@ public class MarkersArray extends ArrayList<myMarker> {
         return this.get(0);
     }
 
-    public void ArrayUpdate(){
+    public void ArrayUpdate(double la, double lo){
         if (this.isEmpty()){
-            this.add(new myMarker(39.986919 + Math.random()/10,116.354369 + Math.random()/10));
+            for(int i=0; i<3; i++){
+                this.add(new myMarker(la + Math.random()/100,lo + Math.random()/100, "更新的标记"));
+            }
+            for(int i=0; i<3; i++){
+                this.add(new myMarker(la + Math.random()/100,lo - Math.random()/100, "更新的标记"));
+            }
+            for(int i=0; i<3; i++){
+                this.add(new myMarker(la - Math.random()/100,lo - Math.random()/100, "更新的标记"));
+            }
+            for(int i=0; i<3; i++){
+                this.add(new myMarker(la - Math.random()/100,lo + Math.random()/100, "更新的标记"));
+            }
         }
+    }
+
+    public void addNewpost(double la, double lo){
+        this.add(new myMarker(la, lo, "刚发的post", true));
     }
 }

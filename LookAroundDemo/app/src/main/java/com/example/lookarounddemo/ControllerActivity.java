@@ -45,9 +45,18 @@ public class ControllerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_controller);
+
+        Intent intent = getIntent();
+        int posted = intent.getIntExtra("new_post", 0);
+
         mTabbar = (JPTabBar) findViewById(R.id.tabbar);
         mPager = (NoScrollViewPager) findViewById(R.id.vp_main);
         mTab1 = new MapPager();
+        if(posted == 1){
+            Bundle bundle = new Bundle();
+            bundle.putBoolean("just_post", true);
+            mTab1.setArguments(bundle);
+        }
         mTab2 = new SearchPager();
         mTab3 = new FavouritePager();
         mTab4 = new UserPager();
