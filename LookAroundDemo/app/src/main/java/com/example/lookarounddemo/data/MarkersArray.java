@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class MarkersArray extends ArrayList<myMarker> {
     public myMarker getFirstMarker(){
         if (this.isEmpty()){
-            Log.i("MarkersArray","没有元素");
+            //Log.i("MarkersArray","没有元素");
             return null;
         }
-        Log.i("MarkersArray","有个元素");
+        //Log.i("MarkersArray","有个元素");
         return this.get(0);
     }
 
