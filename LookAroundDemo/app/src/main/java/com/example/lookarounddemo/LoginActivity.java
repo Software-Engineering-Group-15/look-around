@@ -1,12 +1,18 @@
 package com.example.lookarounddemo;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import org.json.JSONObject;
 
@@ -26,9 +32,11 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "";
     private EditText log_input_phonenum;
     private EditText log_input_password;
     private HashMap<String, String> stringHashMap;
+    Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +44,21 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         log_input_phonenum = (EditText) findViewById(R.id.log_input_phonenum);
         log_input_password = (EditText) findViewById(R.id.log_input_password);
+        mHandler = new Handler();//创建Handler
         stringHashMap = new HashMap<>();
     }
 
     public void login_finish(View view){
-        stringHashMap.put("username", log_input_phonenum.getText().toString());
+        stringHashMap.put("userName", log_input_phonenum.getText().toString());
         stringHashMap.put("password", log_input_password.getText().toString());
-        new Thread(postRun).start();//开启新线程
-        Intent intent = new Intent(this, ControllerActivity.class);
-        startActivity(intent);
+        //new Thread(postRun).start();//开启新线
+
+         new Thread() {
+            public void run() {
+                mHandler.post(postRun);
+            }
+        }.start();
+
     }
 
     public void forget_password(View view){
@@ -62,11 +76,11 @@ public class LoginActivity extends AppCompatActivity {
     };
 
     private void requestPost(HashMap<String, String> paramsMap) {
-//测试http json request
+        //测试http json request
         InputStream is = null;
         String result = "";
         try {
-            Log.i("login","开始Post");
+
             String baseUrl = "http://115.27.199.59:8080/user/login";
             //合成参数
             StringBuilder tempParams = new StringBuilder();
@@ -91,27 +105,50 @@ public class LoginActivity extends AppCompatActivity {
             urlConn.setRequestProperty("Content-Type", "application/json");
             urlConn.connect();
             // POST请求
-            DataOutputStream out = new
-                    DataOutputStream(urlConn.getOutputStream());
+            DataOutputStream out = new DataOutputStream(urlConn.getOutputStream());
             JSONObject obj = new JSONObject();
-            obj.accumulate("username","bbb");
-            obj.accumulate("password","213");
+            obj.accumulate("userName",paramsMap.get("userName"));
+            obj.accumulate("password",paramsMap.get("password"));
             String json = java.net.URLEncoder.encode(obj.toString(), "utf-8");
             out.writeBytes(json);
             out.flush();
             out.close();
+
             // 判断请求是否成功
             if (urlConn.getResponseCode() == 200) {
                 // 获取返回的数据
-                String tmpresult = streamToString(urlConn.getInputStream());
-                Log.i("login","post成宫");
+                String results = streamToString(urlConn.getInputStream());
+                Log.e(TAG, "Post方式请求成功，result--->" + results);
+                Intent intent = new Intent(this, ControllerActivity.class);
+                startActivity(intent);
             } else {
-                Log.i("login","post失败");
+                Log.e(TAG, "Post方式请求失败");
+                /* 创建AlertDialog对象并显示 */
+                final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                alertDialog.show();
+                /* 添加对话框自定义布局 */
+                alertDialog.setContentView(R.layout.login_pop);
+                /* 获取对话框窗口 */
+                Window window = alertDialog.getWindow();
+                /* 设置显示窗口的宽高 */
+                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                /* 设置窗口显示位置 */
+                window.setGravity(Gravity.CENTER);
+                /* 通过window找布局里的控件 */
+                window.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.e("log", "进入onclick函数体内");
+                        // 隐藏对话框
+                        alertDialog.dismiss();
+                        //自己进行其他的处理
+                    }
+                });
             }
             // 关闭连接
             urlConn.disconnect();
         } catch (Exception e) {
-            Log.e("login",e.toString());
+            Log.e(TAG, e.toString());
         }
     }
     /**
@@ -133,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
             byte[] byteArray = baos.toByteArray();
             return new String(byteArray);
         } catch (Exception e) {
-            Log.i("login","失败");
+            Log.e(TAG, e.toString());
             return null;
         }
     }
