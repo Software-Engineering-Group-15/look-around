@@ -21,7 +21,7 @@
     <string name="map_new_post">新建动态</string>
     <string name="search_txt">搜索页面</string>
     <string name="favourite_txt">收藏列表</string>
-    <string name="user_txt">用户主页</string>
+    <string name="user_txt">Look Around</string>
     <string name="new_post_post">发送</string>
     <string name="new_post_txt">说点什么吧</string>
     <string name="show_message">登录失败!</string>
