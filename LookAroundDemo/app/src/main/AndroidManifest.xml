@@ -31,6 +31,9 @@
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="9279b7b9fa61fc29a5a34214c2c597dc" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity android:name=".ControllerActivity" />
         <activity android:name=".FindPasswordActivity" />

@@ -25,6 +25,7 @@
         android:layout_marginTop="164dp"
         android:hint="@string/goback"
         android:onClick="goback"
+        android:textColor="@color/white"
         android:textSize="35dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
