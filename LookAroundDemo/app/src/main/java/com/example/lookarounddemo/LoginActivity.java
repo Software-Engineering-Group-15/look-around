@@ -59,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
             intent = new Intent(this, ControllerActivity.class);
         }
         startActivity(intent);
-//        new Thread(postRun).start();//开启新线
+//        new Thread(postRun).start();//开启新线程
 
 //         new Thread() {
 //            public void run() {
