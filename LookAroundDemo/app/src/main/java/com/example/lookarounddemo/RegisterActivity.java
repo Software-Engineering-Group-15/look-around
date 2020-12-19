@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         reg_input_phonenum = (EditText) findViewById(R.id.reg_input_phonenum);
         reg_input_password = (EditText) findViewById(R.id.reg_input_password);
         reg_input_password_again = (EditText) findViewById(R.id.reg_input_password_again);
-        mHandler = new Handler();//创建Handler
+//        mHandler = new Handler();//创建Handler
         stringHashMap = new HashMap<>();
     }
 
@@ -46,13 +46,15 @@ public class RegisterActivity extends AppCompatActivity {
         stringHashMap.put("email", reg_input_phonenum.getText().toString());
         stringHashMap.put("password", reg_input_password.getText().toString());
         stringHashMap.put("userName", reg_input_useName.getText().toString());
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
         //new Thread(postRun).start();//开启新线
 
-        new Thread() {
-            public void run() {
-                mHandler.post(postRun);
-            }
-        }.start();
+//        new Thread() {
+//            public void run() {
+//                mHandler.post(postRun);
+//            }
+//        }.start();
     }
     Runnable postRun = new Runnable() {
 

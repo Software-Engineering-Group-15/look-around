@@ -18,15 +18,18 @@ import java.util.List;
 
 public class ControllerActivity extends AppCompatActivity {
 
+//    @Titles
+//    private static final String[] mTitles = {"地图","搜索","收藏","用户"};
     @Titles
-    private static final String[] mTitles = {"地图","搜索","收藏","用户"};
-
+    private static final String[] mTitles = {"地图","用户"};
+//    @SeleIcons
+//    private static final int[] mSeleIcons = {R.mipmap.tab1_selected,R.mipmap.tab2_selected,R.mipmap.tab3_selected,R.mipmap.tab4_selected};
     @SeleIcons
-    private static final int[] mSeleIcons = {R.mipmap.tab1_selected,R.mipmap.tab2_selected,R.mipmap.tab3_selected,R.mipmap.tab4_selected};
-
+    private static final int[] mSeleIcons = {R.mipmap.tab1_selected,R.mipmap.tab4_selected};
+//    @NorIcons
+//    private static final int[] mNormalIcons = {R.mipmap.tab1_normal, R.mipmap.tab2_normal, R.mipmap.tab3_normal, R.mipmap.tab4_normal};
     @NorIcons
-    private static final int[] mNormalIcons = {R.mipmap.tab1_normal, R.mipmap.tab2_normal, R.mipmap.tab3_normal, R.mipmap.tab4_normal};
-
+    private static final int[] mNormalIcons = {R.mipmap.tab1_normal, R.mipmap.tab4_normal};
     private List<Fragment> list = new ArrayList<>();
 
     private NoScrollViewPager mPager;
@@ -57,8 +60,8 @@ public class ControllerActivity extends AppCompatActivity {
             bundle.putBoolean("just_post", true);
             mTab1.setArguments(bundle);
         }
-        mTab2 = new SearchPager();
-        mTab3 = new FavouritePager();
+//        mTab2 = new SearchPager();
+//        mTab3 = new FavouritePager();
         mTab4 = new UserPager();
         View middleView = mTabbar.getMiddleView();
         MiddleClickListener myMidlistener = new MiddleClickListener();
@@ -66,8 +69,8 @@ public class ControllerActivity extends AppCompatActivity {
         mTabbar.setGradientEnable(true);
         mTabbar.setPageAnimateEnable(true);
         list.add(mTab1);
-        list.add(mTab2);
-        list.add(mTab3);
+//        list.add(mTab2);
+//        list.add(mTab3);
         list.add(mTab4);
 
         mPager.setAdapter(new Adapter(getSupportFragmentManager(),list));

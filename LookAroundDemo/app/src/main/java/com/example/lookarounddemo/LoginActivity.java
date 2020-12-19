@@ -44,20 +44,29 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         log_input_phonenum = (EditText) findViewById(R.id.log_input_phonenum);
         log_input_password = (EditText) findViewById(R.id.log_input_password);
-        mHandler = new Handler();//创建Handler
+//        mHandler = new Handler();//创建Handler
         stringHashMap = new HashMap<>();
     }
 
     public void login_finish(View view){
         stringHashMap.put("userName", log_input_phonenum.getText().toString());
         stringHashMap.put("password", log_input_password.getText().toString());
-        //new Thread(postRun).start();//开启新线
+        Intent intent;
+        if(log_input_password.getText().toString().equals("123456")){
+            intent = new Intent(this, LoginFailedActivity.class);
+        }
+        else{
+            intent = new Intent(this, ControllerActivity.class);
+        }
+        startActivity(intent);
+//        new Thread(postRun).start();//开启新线
 
-         new Thread() {
-            public void run() {
-                mHandler.post(postRun);
-            }
-        }.start();
+//         new Thread() {
+//            public void run() {
+//                mHandler.post(postRun);
+//            }
+//        }.start();
+
 
     }
 
@@ -80,14 +89,15 @@ public class LoginActivity extends AppCompatActivity {
         InputStream is = null;
         String result = "";
         try {
-
-            String baseUrl = "http://115.27.199.59:8080/user/login";
+            Log.e("uuu","尝试建立连接");
+            String baseUrl = "http://39.98.75.17:80/user/login";
             //合成参数
             StringBuilder tempParams = new StringBuilder();
             // 新建一个URL对象
             URL url = new URL(baseUrl);
             // 打开一个HttpURLConnection连接
             HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();
+            Log.e("uuu","尝试建立连接2");
             // 设置连接超时时间
             urlConn.setConnectTimeout(5 * 1000);
             //设置从主机读取数据超时
@@ -98,12 +108,16 @@ public class LoginActivity extends AppCompatActivity {
             urlConn.setDoInput(true);
             // Post请求不能使用缓存
             urlConn.setUseCaches(false);
+            Log.e("uuu","尝试建立连接2.5");
             // 设置为Post请求
             urlConn.setRequestMethod("POST");
             //设置本次连接是否自动处理重定向
+            Log.e("uuu","尝试建立连接2.7");
             urlConn.setInstanceFollowRedirects(true);
+            Log.e("uuu","尝试建立连接2.8");
             urlConn.setRequestProperty("Content-Type", "application/json");
             urlConn.connect();
+            Log.e("uuu","尝试建立连接3");
             // POST请求
             DataOutputStream out = new DataOutputStream(urlConn.getOutputStream());
             JSONObject obj = new JSONObject();
@@ -113,8 +127,11 @@ public class LoginActivity extends AppCompatActivity {
             out.writeBytes(json);
             out.flush();
             out.close();
-
             // 判断请求是否成功
+            Log.e("uuu","尝试建立连接4");
+            int p = urlConn.getResponseCode();
+            Log.e("uuu","尝试建立连接5");
+            Log.e("uuu",p+"ooo");
             if (urlConn.getResponseCode() == 200) {
                 // 获取返回的数据
                 String results = streamToString(urlConn.getInputStream());

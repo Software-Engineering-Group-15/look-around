@@ -2,6 +2,7 @@ package com.example.lookarounddemo;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -107,7 +108,19 @@ public class MapPager extends Fragment implements LocationSource,
         aMap.setMyLocationEnabled(true);// 设置为true表示显示定位层并可触发定位，false表示隐藏定位层并不可触发定位，默认是false
 
         aMap.setOnMapTouchListener(this);
-
+// 定义 Marker 点击事件监听
+        AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
+            // marker 对象被点击时回调的接口
+            // 返回 true 则表示接口已响应事件，否则返回false
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Intent intent = new Intent(getActivity(), NaviPostActivity.class);
+                startActivity(intent);
+                return true;
+            }
+        };
+// 绑定 Marker 被点击事件
+        aMap.setOnMarkerClickListener(markerClickListener);
     }
 
 
@@ -200,6 +213,7 @@ public class MapPager extends Fragment implements LocationSource,
                     }
 
                 }
+                Log.i("amap",cLa + "," + cLo);
                 mMarkers.ArrayUpdate(cLa, cLo);
                 showMarkers();
             }
@@ -364,6 +378,7 @@ public class MapPager extends Fragment implements LocationSource,
             ;
         }
         Log.i("amap","展示标志");
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

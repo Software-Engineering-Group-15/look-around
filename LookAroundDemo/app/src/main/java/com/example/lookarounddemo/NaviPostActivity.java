@@ -28,7 +28,7 @@ import java.util.Map;
  *
  *
  */
-public class testActivity extends Activity implements View.OnClickListener {
+public class NaviPostActivity extends Activity implements View.OnClickListener {
 
     private List<Map<String,Object>> lists;
     private SimpleAdapter adapter;
@@ -68,7 +68,7 @@ public class testActivity extends Activity implements View.OnClickListener {
             map.put("content",content[i]);
             lists.add(map);
         }
-        adapter = new SimpleAdapter(testActivity.this,lists,R.layout.item_comment
+        adapter = new SimpleAdapter(NaviPostActivity.this,lists,R.layout.item_comment
                 ,new String[]{"image","theme","time","content"}
                 ,new int[]{R.id.headIv,R.id.nameTv,R.id.timeTv,R.id.contentTv});
         listView.setAdapter(adapter);
