@@ -9,37 +9,40 @@ package com.example.lookarounddemo.data;
  *
  */
 public class User {
-    private String id;
-    private String name;
-    private String headUrl;
-    public User(String id, String name, String headUrl){
-        this.id = id;
-        this.name = name;
-        this.headUrl = headUrl;
-    }
-    public String getId() {
-        return id;
-    }
-    public void setId(String id) {
-        this.id = id;
-    }
-    public String getName() {
+    private static String userID = "02200059";
+    private static String name = "Bob";
+    private static double la;
+    private static double lo;
+
+    public static String getName() {
         return name;
     }
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getHeadUrl() {
-        return headUrl;
-    }
-    public void setHeadUrl(String headUrl) {
-        this.headUrl = headUrl;
+
+    public static String getUserID() {
+        return userID;
     }
 
-    @Override
-    public String toString() {
-        return "id = " + id
-                + "; name = " + name
-                + "; headUrl = " + headUrl;
+    public static void setName(String name) {
+        User.name = name;
+    }
+
+    public static void setUserID(String userID) {
+        User.userID = userID;
+    }
+
+    public static double getLa() {
+        return la;
+    }
+
+    public static void setLa(double la) {
+        User.la = la;
+    }
+
+    public static double getLo() {
+        return lo;
+    }
+
+    public static void setLo(double lo) {
+        User.lo = lo;
     }
 }

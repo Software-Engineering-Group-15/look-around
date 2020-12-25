@@ -15,7 +15,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.lookarounddemo.data.CommentItem;
+import com.example.lookarounddemo.data.myMarker;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,6 +38,10 @@ public class NaviPostActivity extends Activity implements View.OnClickListener {
     private SimpleAdapter adapter;
     private ListView listView;
 
+    private TextView post_publisher;
+    private TextView post_content;
+    private TextView post_time;
+
     private ImageView praise_button;
     private ImageView comment_button;
     private boolean ifPraise = false;
@@ -41,35 +49,44 @@ public class NaviPostActivity extends Activity implements View.OnClickListener {
     private boolean ifComment = false;
     private EditText myComment_content;
 
-    private String[] theme = {"张三","李四","王五","张三","李四","王五","张三","李四","王五","张三","李四","王五"};
-    private String[] content ={"李在赣神魔","李似神魔恋","经典胡言乱语","张三","李四","王五","张三","李四","王五","张三","李四","王五"};
-    private String[] time ={"评论于2020年12月20日15时38分","评论于2020年12月20日15时39分","评论于2020年12月20日15时40分","张三","李四","王五","张三","李四","王五","张三","李四","王五"};
     private int[] imageViews = {R.drawable.im_pub_no_image,R.drawable.im_pub_no_image,R.drawable.im_pub_no_image};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
+        //原po相关
+        post_publisher = findViewById(R.id.nameTv);
+        post_time = findViewById(R.id.timeTv);
+        post_content = findViewById(R.id.contentTv);
+        //按钮相关
         comment_button = findViewById(R.id.snsBtn);
         praise_button = findViewById(R.id.praiseBtn);
-        myComment = findViewById(R.id.myComment);
-        myComment_content = findViewById(R.id.comment_content);
         comment_button.setOnClickListener(this);
         praise_button.setOnClickListener(this);
-
+        //评论相关
+        myComment = findViewById(R.id.myComment);
+        myComment_content = findViewById(R.id.comment_content);
         listView = (ListView) findViewById(R.id.commentList);
 //        准备数据源
+        myMarker tmpMarker = (myMarker) getIntent().getSerializableExtra("marker");
+        post_publisher.setText(tmpMarker.getPublisher());
+        post_time.setText(tmpMarker.getTime());
+        post_content.setText(tmpMarker.getContent());
+
+        int commentLen = tmpMarker.getCommentsLen();
         lists = new ArrayList<>();
-        for(int i = 0;i < theme.length;i++){
+        for(int i = 0;i < commentLen; i++){
+            CommentItem tmpComment = tmpMarker.getCommentItem(i);
             Map<String,Object> map =new HashMap<>();
             map.put("image",R.drawable.im_pub_no_image);
-            map.put("theme",theme[i]);
-            map.put("time",time[i]);
-            map.put("content",content[i]);
+            map.put("publisher",tmpComment.getPublisher());
+            map.put("time",tmpComment.getTime());
+            map.put("content", tmpComment.getText());
             lists.add(map);
         }
         adapter = new SimpleAdapter(NaviPostActivity.this,lists,R.layout.item_comment
-                ,new String[]{"image","theme","time","content"}
+                ,new String[]{"image","publisher","time","content"}
                 ,new int[]{R.id.headIv,R.id.nameTv,R.id.timeTv,R.id.contentTv});
         listView.setAdapter(adapter);
     }

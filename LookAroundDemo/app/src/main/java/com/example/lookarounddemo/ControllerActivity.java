@@ -52,6 +52,7 @@ public class ControllerActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int posted = intent.getIntExtra("new_post", 0);
 
+
         mTabbar = (JPTabBar) findViewById(R.id.tabbar);
         mPager = (NoScrollViewPager) findViewById(R.id.vp_main);
         mTab1 = new MapPager();

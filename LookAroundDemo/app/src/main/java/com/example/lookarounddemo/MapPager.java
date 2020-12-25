@@ -27,6 +27,7 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.example.lookarounddemo.data.MarkersArray;
+import com.example.lookarounddemo.data.User;
 import com.example.lookarounddemo.data.myMarker;
 import com.jpeng.jptabbar.JPTabBar;
 
@@ -115,6 +116,11 @@ public class MapPager extends Fragment implements LocationSource,
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Intent intent = new Intent(getActivity(), NaviPostActivity.class);
+                String markerID = marker.getTitle();
+                int index = Integer.valueOf(markerID);
+                myMarker tmpMarker = mMarkers.get(index);
+                tmpMarker.Print();
+                intent.putExtra("marker", tmpMarker);
                 startActivity(intent);
                 return true;
             }
@@ -192,6 +198,8 @@ public class MapPager extends Fragment implements LocationSource,
                     && amapLocation.getErrorCode() == 0) {
                 cLa = amapLocation.getLatitude();
                 cLo = amapLocation.getLongitude();
+                User.setLa(cLa);
+                User.setLo(cLo);
                 LatLng latLng = new LatLng(cLa, cLo);
                 //展示自定义定位小蓝点
                 if(locationMarker == null) {

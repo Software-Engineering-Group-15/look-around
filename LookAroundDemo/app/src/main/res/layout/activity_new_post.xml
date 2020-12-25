@@ -1,32 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".NewPostActivity">
-
-    <Button
-        android:id="@+id/new_post_post"
-        android:layout_width="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="276dp"
-        android:onClick="map"
-        android:text="@string/new_post_post"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/new_post_txt" />
-
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/new_post_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:onClick="map"
+            android:text="@string/new_post_back">
+        </Button>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1">
+        </View>
+        <Button
+            android:id="@+id/new_post_post"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:onClick="map"
+            android:text="@string/new_post_post">
+        </Button>
+    </LinearLayout>
+    <View
+        android:id="@+id/lin_com_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/im_line_color">
+    </View>
     <EditText
         android:id="@+id/new_post_txt"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
-        android:ems="10"
+        android:layout_margin="15dp"
+        android:background="@drawable/dialog_corner_bg"
+        android:gravity="top"
         android:hint="@string/new_post_txt"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.079"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:inputType="textMultiLine"
+        android:minLines="5">
+    </EditText>
+</LinearLayout>

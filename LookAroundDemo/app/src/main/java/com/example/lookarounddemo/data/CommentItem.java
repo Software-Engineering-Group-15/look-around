@@ -9,36 +9,51 @@ import java.io.Serializable;
  * @date 2015-12-28 下午3:44:38
  *
  */
-public class CommentItem implements Serializable{
+public class CommentItem implements Serializable {
 
-    private String id;
-    private User user;
-    private User toReplyUser;
-    private String content;
-    public String getId() {
-        return id;
+    private String commentId;
+    private String publisher;
+    private String text;
+    private String time;
+    public CommentItem(String commentId, String publisher, String time, String text){
+        this.commentId = commentId;
+        this.publisher = publisher;
+        this.time = time;
+        this.text = text;
+
     }
-    public void setId(String id) {
-        this.id = id;
+    public String getCommentId() {
+        return this.commentId;
     }
-    public String getContent() {
-        return content;
+
+    public String getText() {
+        return this.text;
     }
-    public void setContent(String content) {
-        this.content = content;
+    public String getPublisher(){
+        return this.publisher;
     }
-    public User getUser() {
-        return user;
+    public String getTime() {
+        return this.time;
     }
-    public void setUser(User user) {
-        this.user = user;
-    }
-    public User getToReplyUser() {
-        return toReplyUser;
-    }
-    public void setToReplyUser(User toReplyUser) {
-        this.toReplyUser = toReplyUser;
-    }
+
+//    public void setId(String id) {
+//        this.id = id;
+//    }
+//    public void setContent(String content) {
+//        this.content = content;
+//    }
+//    public User getUser() {
+//        return user;
+//    }
+//    public void setUser(User user) {
+//        this.user = user;
+//    }
+//    public User getToReplyUser() {
+//        return toReplyUser;
+//    }
+//    public void setToReplyUser(User toReplyUser) {
+//        this.toReplyUser = toReplyUser;
+//    }
 
 }
 

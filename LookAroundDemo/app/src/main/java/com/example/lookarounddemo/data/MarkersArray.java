@@ -88,16 +88,43 @@ public class MarkersArray extends ArrayList<myMarker> {
                 JSONObject json_result = new JSONObject(result);
                 Log.e("111", "Get方式请求成功，result--->" + result);
                 JSONObject dataObject = json_result.getJSONObject("data");
-                JSONArray jsonArray = dataObject.getJSONArray("posts");
-                JSONObject dataObject2 = jsonArray.getJSONObject(0);
-                String location = dataObject2.getString("location");
-                String txt = dataObject2.getString("text");
-                Log.i("222", location);
-                String[] locationArr = location.split(",");
-                double tla = Double.valueOf(locationArr[0]);
-                double tlo = Double.valueOf(locationArr[1]);
-                Log.i("222", tla + "," + tlo);
-                this.add(new myMarker(tla,tlo, txt));
+                JSONArray postsArray = dataObject.getJSONArray("posts");
+                int postsLen = postsArray.length();
+                for(int i=0;i<postsLen;i++){
+                    JSONObject postObject = postsArray.getJSONObject(i);
+                    String postID = postObject.getString("id");
+                    String time = timeString(postObject.getString("time"));
+                    String publisher = postObject.getString("publisher");
+                    String location = postObject.getString("location");
+                    String txt = postObject.getString("text");
+                    //处理location格式
+                    String[] locationArr = location.split(",");
+                    double tla = Double.valueOf(locationArr[0]);
+                    double tlo = Double.valueOf(locationArr[1]);
+
+                    myMarker newMarker = new myMarker(tla, tlo, publisher, Integer.toString(i), time, txt, false);
+                    Log.i("post", postID);
+                    Log.i("post", publisher);
+                    Log.i("post", location);
+                    Log.i("post", time);
+                    Log.i("post", txt);
+                    JSONArray commentsArray = postObject.getJSONArray("commentList");
+                    int commentsLen = commentsArray.length();
+                    for(int j=0;j<commentsLen;j++){
+                        JSONObject commentObject = commentsArray.getJSONObject(j);
+                        String commentID = commentObject.getString("commentID");
+                        String commentTime = timeString(commentObject.getString("time"));
+                        String commentPublisher = commentObject.getString("publisher");
+                        String commentText = commentObject.getString("text");
+                        Log.i("comment", commentID);
+                        Log.i("comment", commentPublisher);
+                        Log.i("comment", commentTime);
+                        Log.i("comment", commentText);
+                        newMarker.addCommentItem(new CommentItem(commentID, commentPublisher, commentTime, commentText));
+                    }
+                    this.add(newMarker);
+                }
+
             } else {
                 Log.e("111", "Get方式请求失败");
             }
@@ -126,7 +153,15 @@ public class MarkersArray extends ArrayList<myMarker> {
         }
     }
 
+    public String timeString(String time){
+        String[] timeArr = time.split("T");
+        String[] dateArr = timeArr[0].split("-");
+        String[] clockArr = timeArr[1].split("\\.");
+        String final_time = dateArr[0] + '年' + dateArr[1] + '月' + dateArr[2] + '日' + clockArr[0];
+        return final_time;
+    }
+
     public void addNewpost(double la, double lo){
-        this.add(new myMarker(la, lo, "刚发的post", true));
+        this.add(new myMarker(la, lo, "我", "刚发的post","20.30.10", "暂无内容", true));
     }
 }
