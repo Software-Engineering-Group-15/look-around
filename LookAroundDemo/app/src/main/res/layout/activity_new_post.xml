@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:onClick="map"
-            android:text="new_post_back">
+            android:text="@string/new_post_back">
         </Button>
         <View
             android:layout_width="0dp"

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import org.json.JSONObject;
 
@@ -157,8 +158,7 @@ public class LoginActivity extends AppCompatActivity {
                         //自己进行其他的处理
                     }
                 });*/
-                Intent intent = new Intent(this, LoginFailedActivity.class);
-                startActivity(intent);
+                Toast.makeText(getApplicationContext(), "登陆失败！请核对信息！", Toast.LENGTH_SHORT).show();
             }
             // 关闭连接
             urlConn.disconnect();
