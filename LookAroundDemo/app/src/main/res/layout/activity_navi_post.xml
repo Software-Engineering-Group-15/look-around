@@ -6,7 +6,46 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical" >
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        >
+        <Button
+            android:id="@+id/new_post_back"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_margin="5dp"
+            android:onClick="map"
+            android:textColor="@color/white"
+            android:background="@color/purple_500"
+            android:text="@string/new_post_back">
+        </Button>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1">
+        </View>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="动态正文"
+            android:textSize="25sp">
+        </TextView>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1">
+        </View>
+    </LinearLayout>
+    <View
+        android:id="@+id/line_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/im_line_color"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -123,7 +162,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="visible"
+        android:layout_margin="10dp"
+        android:visibility="gone"
         >
         <View
             android:id="@+id/lin_com_top"
@@ -144,18 +184,21 @@
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:focusable="true"
-               />
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp" />
             <Button
                 android:id="@+id/comment_send"
                 android:layout_width="50dp"
                 android:layout_height="35dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="5dp"
+                android:layout_margin="5dp"
                 android:text="@string/new_comment_send"
                 android:textSize="13sp"
                 android:textColor="@color/white"
                 android:background="@color/purple_500"
-                />
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp" />
         </LinearLayout>
         <View
             android:id="@+id/lin_com_bot"

@@ -54,8 +54,9 @@ public class LoginActivity extends AppCompatActivity {
     public void login_finish(View view){
         stringHashMap.put("username", log_input_phonenum.getText().toString());
         stringHashMap.put("password", log_input_password.getText().toString());
-
-        new Thread(postRun).start();//开启新线程
+        Intent intent = new Intent(this, ControllerActivity.class);
+        startActivity(intent);
+//        new Thread(postRun).start();//开启新线程
 
 //         new Thread() {
 //            public void run() {

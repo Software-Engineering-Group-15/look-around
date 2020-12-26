@@ -146,6 +146,8 @@ public class NewPostActivity extends AppCompatActivity {
             return null;
         }
     }
+
+
     public JSONObject makePost(){
         JSONObject postOBJ = new JSONObject();
         try {

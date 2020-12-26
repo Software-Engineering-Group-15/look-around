@@ -102,7 +102,7 @@ public class MarkersArray extends ArrayList<myMarker> {
                     double tla = Double.valueOf(locationArr[1]);
                     double tlo = Double.valueOf(locationArr[0]);
 
-                    myMarker newMarker = new myMarker(tla, tlo, publisher, Integer.toString(i), time, txt, false);
+                    myMarker newMarker = new myMarker(tla, tlo, publisher, postID, time, txt, false);
 //                    Log.i("post", postID);
 //                    Log.i("post", publisher);
 //                    Log.i("post", location);
