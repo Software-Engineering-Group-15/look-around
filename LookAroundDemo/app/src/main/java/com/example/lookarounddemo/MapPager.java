@@ -369,7 +369,7 @@ public class MapPager extends Fragment implements LocationSource,
 
     private void showMarkers() {
         if(justPosted){
-            mMarkers.addNewpost(cLa, cLo);
+            //mMarkers.addNewpost(cLa, cLo);
             justPosted = false;
         }
         int size = mMarkers.size();
@@ -377,7 +377,7 @@ public class MapPager extends Fragment implements LocationSource,
             myMarker m = mMarkers.get(j);
             boolean ifnew = m.getIfnew();
             int color = 1;
-            if(ifnew)
+            if(m.getPublisher().equals(User.getName()))
                 color = 2;
             aMap.addMarker(new MarkerOptions().position(new LatLng(m.getLatitude(), m.getLongitude()))
                     .icon(BitmapDescriptorFactory.fromView(getMyView(color)))

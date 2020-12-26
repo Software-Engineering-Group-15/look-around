@@ -99,15 +99,15 @@ public class MarkersArray extends ArrayList<myMarker> {
                     String txt = postObject.getString("text");
                     //处理location格式
                     String[] locationArr = location.split(",");
-                    double tla = Double.valueOf(locationArr[0]);
-                    double tlo = Double.valueOf(locationArr[1]);
+                    double tla = Double.valueOf(locationArr[1]);
+                    double tlo = Double.valueOf(locationArr[0]);
 
                     myMarker newMarker = new myMarker(tla, tlo, publisher, Integer.toString(i), time, txt, false);
-                    Log.i("post", postID);
-                    Log.i("post", publisher);
-                    Log.i("post", location);
-                    Log.i("post", time);
-                    Log.i("post", txt);
+//                    Log.i("post", postID);
+//                    Log.i("post", publisher);
+//                    Log.i("post", location);
+//                    Log.i("post", time);
+//                    Log.i("post", txt);
                     JSONArray commentsArray = postObject.getJSONArray("commentList");
                     int commentsLen = commentsArray.length();
                     for(int j=0;j<commentsLen;j++){
@@ -116,10 +116,10 @@ public class MarkersArray extends ArrayList<myMarker> {
                         String commentTime = timeString(commentObject.getString("time"));
                         String commentPublisher = commentObject.getString("publisher");
                         String commentText = commentObject.getString("text");
-                        Log.i("comment", commentID);
-                        Log.i("comment", commentPublisher);
-                        Log.i("comment", commentTime);
-                        Log.i("comment", commentText);
+//                        Log.i("comment", commentID);
+//                        Log.i("comment", commentPublisher);
+//                        Log.i("comment", commentTime);
+//                        Log.i("comment", commentText);
                         newMarker.addCommentItem(new CommentItem(commentID, commentPublisher, commentTime, commentText));
                     }
                     this.add(newMarker);

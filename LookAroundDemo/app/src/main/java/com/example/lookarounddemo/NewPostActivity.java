@@ -93,13 +93,12 @@ public class NewPostActivity extends AppCompatActivity {
             urlConn.setInstanceFollowRedirects(true);
             Log.e("uuu","尝试建立连接2.8");
             urlConn.setRequestProperty("Content-Type", "application/json");
-            urlConn.setRequestProperty("Authorization", "Bearer JWT");
             urlConn.connect();
             Log.e("uuu","尝试建立连接3");
             // POST请求
             DataOutputStream out = new DataOutputStream(urlConn.getOutputStream());
             JSONObject postOBJ = makePost();
-            String json = java.net.URLEncoder.encode(postOBJ.toString(), "utf-8");
+            String json = postOBJ.toString();
             Log.i("json", json);
             out.writeBytes(json);
             out.flush();
@@ -109,7 +108,6 @@ public class NewPostActivity extends AppCompatActivity {
             int p = urlConn.getResponseCode();
             String pp = urlConn.getResponseMessage();
             Log.e("uuu","尝试建立连接5");
-            Log.e("uuu",p+"ooo"+pp);
             if (urlConn.getResponseCode() == 200) {
                 // 获取返回的数据
                 String results = streamToString(urlConn.getInputStream());
@@ -153,7 +151,7 @@ public class NewPostActivity extends AppCompatActivity {
         try {
 
             JSONObject textOBJ = new JSONObject();
-            textOBJ.put("text", "this is my posts.");//postText.getText().toString());
+            textOBJ.put("text", postText.getText().toString());//postText.getText().toString());
             postOBJ.put("post", textOBJ);
 //            postOBJ.put("postID", Integer.toString((int)(Math.random()*1000)));
 //            String myName = User.getName();
@@ -164,8 +162,8 @@ public class NewPostActivity extends AppCompatActivity {
 
 //            String location = Double.toString(User.getLa()) + ',' + Double.toString(User.getLo());
             JSONObject locationOBJ = new JSONObject();
-            locationOBJ.put("lat", (int)User.getLa());
-            locationOBJ.put("long", (int)User.getLo());
+            locationOBJ.put("lat", User.getLa());
+            locationOBJ.put("long", User.getLo());
             postOBJ.put("location", locationOBJ);
 
             JSONObject publisherOBJ = new JSONObject();
