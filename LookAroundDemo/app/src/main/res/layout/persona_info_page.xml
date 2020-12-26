@@ -13,7 +13,12 @@
         android:id="@+id/tl_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    <View
+        android:id="@+id/line_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/im_line_color"
+        />
     <!--    头像-->
     <LinearLayout
         android:id="@+id/ll_portrait"
@@ -21,8 +26,13 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/padding_left_and_right"
         android:paddingBottom="10dp"
-        android:background="@color/white">
-
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1">
+        </View>
         <com.example.lookarounddemo.widget.RoundImageView
             android:id="@+id/ri_portrait"
             android:layout_width="60dp"
@@ -30,11 +40,20 @@
             android:layout_marginLeft="@dimen/padding_left_and_right"
             android:scaleType="centerCrop"
             android:src="@mipmap/tab4_normal"/>
-
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1">
+        </View>
 
 
     </LinearLayout>
-
+    <View
+        android:id="@+id/line_below"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/im_line_color"
+        />
     <!--    编辑界面，此处可以写成一个ItemGroup上传至com上-->
     <com.example.lookarounddemo.widget.ItemGroup
 
