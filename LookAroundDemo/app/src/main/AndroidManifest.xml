@@ -16,6 +16,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LookAroundDemo">
+        android:supportsRtl = "true
+        <provider package="com.example.lookarounddemo"
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.lookarounddemo.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+
+        </provider>
         <activity android:name=".NaviPostActivity"></activity>
 
         <service android:name="com.amap.api.location.APSService" />
@@ -43,6 +54,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".LoginFailedActivity" />
+        <activity android:name=".EditUsernameActivity"/>
         <activity android:name=".MainActivity">
 
              <intent-filter>
