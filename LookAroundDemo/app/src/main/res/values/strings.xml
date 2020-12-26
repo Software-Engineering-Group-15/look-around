@@ -23,7 +23,6 @@
     <string name="favourite_txt">收藏列表</string>
     <string name="user_txt">Look Around</string>
     <string name="new_post_post">发送</string>
-    <string name="new_post_back">返回</string>
     <string name="new_post_txt">说点什么吧</string>
     <string name="new_comment_txt">说说你的看法</string>
     <string name="new_comment_send">发送</string>
@@ -31,5 +30,6 @@
     <string name="goback">确定</string>
     <string name="login_failed">登录失败，请重试！</string>
     <string name="register_failed">注册失败！</string>
+    <string name="my_name">乐颐</string>
 
 </resources>

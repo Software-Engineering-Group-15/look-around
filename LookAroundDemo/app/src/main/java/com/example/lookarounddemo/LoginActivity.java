@@ -29,6 +29,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,16 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login_finish(View view){
-        stringHashMap.put("userName", log_input_phonenum.getText().toString());
+        stringHashMap.put("username", log_input_phonenum.getText().toString());
         stringHashMap.put("password", log_input_password.getText().toString());
-        Intent intent;
-        if(log_input_password.getText().toString().equals("123456")){
-            intent = new Intent(this, LoginFailedActivity.class);
-        }
-        else{
-            intent = new Intent(this, ControllerActivity.class);
-        }
-        startActivity(intent);
+
         new Thread(postRun).start();//开启新线程
 
 //         new Thread() {
@@ -90,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
         String result = "";
         try {
             Log.e("uuu","尝试建立连接");
-            String baseUrl = "http://39.98.75.17:80/user/login";
+            String baseUrl = "http://39.98.75.17/login";
             //合成参数
             StringBuilder tempParams = new StringBuilder();
             // 新建一个URL对象
@@ -121,10 +116,10 @@ public class LoginActivity extends AppCompatActivity {
             // POST请求
             DataOutputStream out = new DataOutputStream(urlConn.getOutputStream());
             JSONObject obj = new JSONObject();
-            obj.accumulate("userName",paramsMap.get("userName"));
+            obj.accumulate("username",paramsMap.get("username"));
             obj.accumulate("password",paramsMap.get("password"));
-            String json = java.net.URLEncoder.encode(obj.toString(), "utf-8");
-            out.writeBytes(json);
+            String json = java.net.URLEncoder.encode(obj.toString(),"GBK");
+            out.writeBytes(obj.toString());
             out.flush();
             out.close();
             // 判断请求是否成功
@@ -134,24 +129,25 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("uuu",p+"ooo");
             if (urlConn.getResponseCode() == 200) {
                 // 获取返回的数据
-                String results = streamToString(urlConn.getInputStream());
-                Log.e(TAG, "Post方式请求成功，result--->" + results);
+                Map<String, List<String>> results = urlConn.getHeaderFields();
+                System.out.println("results:" + results);
+                //Log.e(TAG, "Post方式请求成功，result--->" + results);
                 Intent intent = new Intent(this, ControllerActivity.class);
                 startActivity(intent);
             } else {
                 Log.e(TAG, "Post方式请求失败");
-                /* 创建AlertDialog对象并显示 */
-                final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
+                // 创建AlertDialog对象并显示
+                /*final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                 alertDialog.show();
-                /* 添加对话框自定义布局 */
+                // 添加对话框自定义布局
                 alertDialog.setContentView(R.layout.login_pop);
-                /* 获取对话框窗口 */
+                // 获取对话框窗口
                 Window window = alertDialog.getWindow();
-                /* 设置显示窗口的宽高 */
+                // 设置显示窗口的宽高
                 window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                /* 设置窗口显示位置 */
+                // 设置窗口显示位置
                 window.setGravity(Gravity.CENTER);
-                /* 通过window找布局里的控件 */
+                // 通过window找布局里的控件
                 window.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -160,7 +156,9 @@ public class LoginActivity extends AppCompatActivity {
                         alertDialog.dismiss();
                         //自己进行其他的处理
                     }
-                });
+                });*/
+                Intent intent = new Intent(this, LoginFailedActivity.class);
+                startActivity(intent);
             }
             // 关闭连接
             urlConn.disconnect();

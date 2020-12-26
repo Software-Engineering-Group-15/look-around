@@ -2,12 +2,15 @@ package com.example.lookarounddemo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
+import com.example.lookarounddemo.widget.ItemGroup;
 import com.jpeng.jptabbar.JPTabBar;
 import com.jpeng.jptabbar.anno.NorIcons;
 import com.jpeng.jptabbar.anno.SeleIcons;
@@ -44,6 +47,9 @@ public class ControllerActivity extends AppCompatActivity {
 
     private UserPager mTab4;
 
+    ViewPager viewPager;
+    Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +57,6 @@ public class ControllerActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         int posted = intent.getIntExtra("new_post", 0);
-
 
         mTabbar = (JPTabBar) findViewById(R.id.tabbar);
         mPager = (NoScrollViewPager) findViewById(R.id.vp_main);
@@ -73,11 +78,22 @@ public class ControllerActivity extends AppCompatActivity {
 //        list.add(mTab2);
 //        list.add(mTab3);
         list.add(mTab4);
-
-        mPager.setAdapter(new Adapter(getSupportFragmentManager(),list));
+        adapter = new Adapter(getSupportFragmentManager(),list);
+        mPager.setAdapter(adapter);
         mTabbar.setContainer(mPager);
 
     }
+    public void setCurrentItem(int item) {
+        mPager.setCurrentItem(item,true);
+        //ItemGroup name = (ItemGroup)mPager.findViewById(R.id.ig_name);
+        //name.getContentEdt().setText();
+    }
+    public void edit_name(String name){
+        UserPager u = (UserPager) adapter.getItem(1);
+        ItemGroup it_name = (ItemGroup) u.getView().findViewById(R.id.ig_name);
+        it_name.getContentEdt().setText(name);
+    }
+
     class MiddleClickListener implements View.OnClickListener {
 
         @Override
