@@ -33,8 +33,11 @@ import com.jpeng.jptabbar.JPTabBar;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 /**
  * AMapV2地图中介绍使用active deactive进行定位<br>
@@ -78,6 +81,8 @@ public class MapPager extends Fragment implements LocationSource,
         if(bundle != null){
             justPosted = bundle.getBoolean("just_post");
             Log.i("new", "刚刚新建了一个post");
+            Toast.makeText(mActivity.getApplicationContext(), "发送成功！", Toast.LENGTH_SHORT).show();
+
         }
         init();
         return layout;
@@ -207,7 +212,7 @@ public class MapPager extends Fragment implements LocationSource,
                     //首次定位
                     locationMarker = aMap.addMarker(new MarkerOptions().position(latLng)
                             .icon(BitmapDescriptorFactory.fromView(getMyView(0)))
-                            .anchor(0.5f, 0.5f));
+                            .anchor(0.5f, 0.5f).title("MyLocation"));
 
                     //首次定位,选择移动到地图中心点并修改级别到15级
                     aMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
@@ -368,22 +373,30 @@ public class MapPager extends Fragment implements LocationSource,
 
 
     private void showMarkers() {
-        if(justPosted){
-            //mMarkers.addNewpost(cLa, cLo);
-            justPosted = false;
-        }
+//        if(justPosted){
+//            //mMarkers.addNewpost(cLa, cLo);
+//            justPosted = false;
+//        }
+        List<Marker> mapScreenMarkers = aMap.getMapScreenMarkers();
         int size = mMarkers.size();
+        boolean ifnew = true;
         for (int j = 0; j < size; j++) {
             myMarker m = mMarkers.get(j);
-            boolean ifnew = m.getIfnew();
             int color = 1;
             if(m.getPublisher().equals(User.getName()))
                 color = 2;
-            aMap.addMarker(new MarkerOptions().position(new LatLng(m.getLatitude(), m.getLongitude()))
-                    .icon(BitmapDescriptorFactory.fromView(getMyView(color)))
-                    .anchor(0.5f, 1.0f)
-                    .title(m.getTitle()))
-            ;
+            Log.i("markers", mapScreenMarkers.size() + "");
+            for (int i = 0; i < mapScreenMarkers.size(); i++) {
+                Marker marker = mapScreenMarkers.get(i);
+                if (marker.getTitle().equals(m.getTitle())) {
+                    ifnew = false;
+                }
+            }
+            if(ifnew)
+                aMap.addMarker(new MarkerOptions().position(new LatLng(m.getLatitude(), m.getLongitude()))
+                        .icon(BitmapDescriptorFactory.fromView(getMyView(color)))
+                        .anchor(0.5f, 1.0f)
+                        .title(m.getTitle()));
         }
         Log.i("amap","展示标志");
 

@@ -92,7 +92,7 @@ public class NaviPostActivity extends Activity implements View.OnClickListener {
         post_publisher.setText(tmpMarker.getPublisher());
         post_time.setText(tmpMarker.getTime());
         post_content.setText(tmpMarker.getContent());
-        postID = tmpMarker.getTitle();
+        postID = tmpMarker.getPostID();
 
         int commentLen = tmpMarker.getCommentsLen();
         lists = new ArrayList<>();
@@ -176,6 +176,7 @@ public class NaviPostActivity extends Activity implements View.OnClickListener {
     public void sendComment(){
         new Thread(postRun).start();//开启新线程
     }
+    public void refreshComment() {new Thread(postRun2).start();}
 
     Runnable postRun = new Runnable() {
 
@@ -261,7 +262,7 @@ public class NaviPostActivity extends Activity implements View.OnClickListener {
 
     private void commentRefresh() {
         try {
-            String baseUrl = "http://39.98.75.17:80/post/comments?type=post&root-id=123&limit=10&start=10";
+            String baseUrl = "http://39.98.75.17:80/post/getmessage/" + postID;
             // 新建一个URL对象
             URL url = new URL(baseUrl);
             // 打开一个HttpURLConnection连接
@@ -288,8 +289,8 @@ public class NaviPostActivity extends Activity implements View.OnClickListener {
                 JSONObject json_result = new JSONObject(result);
                 Log.e("111", "Get方式请求成功，result--->" + result);
                 JSONObject dataObject = json_result.getJSONObject("data");
-                JSONObject commentListObject = json_result.getJSONObject("commentList");
-                JSONArray commentsArray = commentListObject.getJSONArray("commentList");
+                JSONObject postObject = dataObject.getJSONObject("post");
+                JSONArray commentsArray = postObject.getJSONArray("commentList");
                 lists.clear();
                 int commentsLen = commentsArray.length();
                 for(int j=0;j<commentsLen;j++){
@@ -351,10 +352,9 @@ public class NaviPostActivity extends Activity implements View.OnClickListener {
     public JSONObject makeComment(){
         JSONObject commentOBJ = new JSONObject();
         try {
-
             commentOBJ.put("text", commentText);//postText.getText().toString());
             commentOBJ.put("postID", postID);
-
+            commentOBJ.put("userName", User.getName());
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -12,6 +12,7 @@ public class myMarker implements Serializable {
     private String title;
     private String time;
     private String content;
+    private String postID;
     private boolean ifnew = false;
 
     private ArrayList<CommentItem> commentsArray = new ArrayList<CommentItem>();
@@ -22,7 +23,7 @@ public class myMarker implements Serializable {
         this.title = title;
     }
 
-    public myMarker(double latitude, double longitude, String publisher, String title, String time, String content, boolean ifnew){
+    public myMarker(double latitude, double longitude, String publisher, String title, String postID, String time, String content, boolean ifnew){
         this.latitude = latitude;
         this.longitude = longitude;
         this.publisher = publisher;
@@ -30,6 +31,11 @@ public class myMarker implements Serializable {
         this.time = time;
         this.content = content;
         this.ifnew = ifnew;
+        this.postID = postID;
+    }
+
+    public String getPostID() {
+        return postID;
     }
 
     public double getLatitude() {

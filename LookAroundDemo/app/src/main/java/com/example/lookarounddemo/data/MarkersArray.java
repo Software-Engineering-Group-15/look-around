@@ -89,6 +89,7 @@ public class MarkersArray extends ArrayList<myMarker> {
                 Log.e("111", "Get方式请求成功，result--->" + result);
                 JSONObject dataObject = json_result.getJSONObject("data");
                 JSONArray postsArray = dataObject.getJSONArray("posts");
+                this.clear();
                 int postsLen = postsArray.length();
                 for(int i=0;i<postsLen;i++){
                     JSONObject postObject = postsArray.getJSONObject(i);
@@ -102,7 +103,7 @@ public class MarkersArray extends ArrayList<myMarker> {
                     double tla = Double.valueOf(locationArr[1]);
                     double tlo = Double.valueOf(locationArr[0]);
 
-                    myMarker newMarker = new myMarker(tla, tlo, publisher, postID, time, txt, false);
+                    myMarker newMarker = new myMarker(tla, tlo, publisher, Integer.toString(i), postID, time, txt, false);
 //                    Log.i("post", postID);
 //                    Log.i("post", publisher);
 //                    Log.i("post", location);
@@ -161,7 +162,7 @@ public class MarkersArray extends ArrayList<myMarker> {
         return final_time;
     }
 
-    public void addNewpost(double la, double lo){
-        this.add(new myMarker(la, lo, "我", "刚发的post","20.30.10", "暂无内容", true));
-    }
+//    public void addNewpost(double la, double lo){
+//        this.add(new myMarker(la, lo, "我", "刚发的post","20.30.10", "暂无内容", true));
+//    }
 }

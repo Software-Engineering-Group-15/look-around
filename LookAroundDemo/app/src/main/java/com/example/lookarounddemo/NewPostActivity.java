@@ -44,7 +44,7 @@ public class NewPostActivity extends AppCompatActivity {
         switch(view.getId()){
             case R.id.new_post_post:
                 intent.putExtra("new_post",1);
-                intent.putExtra("post_txt",postText.getText().toString());
+//                intent.putExtra("post_txt",postText.getText().toString());
                 break;
             case R.id.new_post_back:
         }
