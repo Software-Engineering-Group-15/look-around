@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/headIv"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="10dip"
+            android:scaleType="fitCenter"
+            android:src="@drawable/im_pub_no_image" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/nameTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:text="纪翔2"
+                    android:textColor="@color/color_8290AF"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/timeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:text="评论于2020年12月20日15时38分"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:textColor="@color/color_aeaeae"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/contentTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
+                android:text="李在赣神魔"
+                android:singleLine="false"
+                android:textSize="14sp"
+                />
+
+            <!--            &lt;!&ndash; 不同的地方 &ndash;&gt;-->
+            <!--            <ViewStub-->
+            <!--                android:id="@+id/viewStub"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="5dp"-->
+            <!--                />-->
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

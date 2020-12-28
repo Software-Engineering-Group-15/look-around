@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.lookarounddemo.ControllerActivity"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <!--    标题栏-->
+    <com.example.lookarounddemo.widget.TitleLayout
+        android:id="@+id/tl_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <View
+        android:id="@+id/line_top"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/im_line_color"
+        />
+    <!--    头像-->
+    <LinearLayout
+        android:id="@+id/ll_portrait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding_left_and_right"
+        android:paddingBottom="10dp"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1">
+        </View>
+        <com.example.lookarounddemo.widget.RoundImageView
+            android:id="@+id/ri_portrait"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="@dimen/padding_left_and_right"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/tab4_normal"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1">
+        </View>
+
+
+    </LinearLayout>
+    <View
+        android:id="@+id/line_below"
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="@color/im_line_color"
+        />
+    <!--    编辑界面，此处可以写成一个ItemGroup上传至com上-->
+    <com.example.lookarounddemo.widget.ItemGroup
+
+        android:id="@+id/ig_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="@string/my_name"
+        app:paddingLeft="@dimen/padding_left_and_right"
+        app:title="昵称" />
+
+    <com.example.lookarounddemo.widget.ItemGroup
+        android:id="@+id/ig_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="1"
+        app:jt_visible="false"
+        app:paddingLeft="@dimen/padding_left_and_right"
+        app:title="手机号" />
+    <com.example.lookarounddemo.widget.ItemGroup
+        android:id="@+id/ig_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content="1"
+        app:jt_visible="false"
+        app:paddingLeft="@dimen/padding_left_and_right"
+        app:title="邮箱" />
+    <com.example.lookarounddemo.widget.ItemGroup
+        android:id="@+id/ig_post"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:edt_hint_content=""
+        app:paddingLeft="@dimen/padding_left_and_right"
+        app:title="收藏动态" />
+
+    <ImageView
+        android:id="@+id/picture"
+        android:layout_width="181dp"
+        android:layout_height="202dp"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>
+

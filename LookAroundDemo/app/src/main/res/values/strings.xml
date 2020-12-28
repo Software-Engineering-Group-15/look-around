@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">LookAroundDemo</string>
+    <string name="title_name">Look Around</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="input_username">请输入用户名</string>
+    <string name="input_phonenumber">请输入手机号/邮箱</string>
+    <string name="input_password">请输入密码</string>
+    <string name="input_password_again">请再次输入密码</string>
+    <string name="input_new_password">请输入新密码</string>
+    <string name="input_new_password_again">请再次输入新密码</string>
+    <string name="forget_password">忘记密码</string>
+    <string name="forget_password_phonenum">输入绑定的手机号/邮箱</string>
+    <string name="forget_password_authentication">输入验证码</string>
+    <string name="forget_password_get_authentication">获取验证码</string>
+    <string name="forget_password_find">确认修改</string>
+    <string name="map_map">地图</string>
+    <string name="map_search">搜索</string>
+    <string name="map_favourite">收藏</string>
+    <string name="map_user_profile">主页</string>
+    <string name="map_new_post">新建动态</string>
+    <string name="search_txt">搜索页面</string>
+    <string name="favourite_txt">收藏列表</string>
+    <string name="user_txt">Look Around</string>
+    <string name="new_post_post">发送</string>
+    <string name="new_post_back">返回</string>
+    <string name="new_post_txt">说点什么吧</string>
+    <string name="new_comment_txt">说说你的看法</string>
+    <string name="new_comment_send">发送</string>
+    <string name="show_message">登录失败!</string>
+    <string name="goback">确定</string>
+    <string name="login_failed">登录失败，请重试！</string>
+    <string name="register_failed">注册失败！</string>
+    <string name="my_name">乐颐</string>
+
+</resources>

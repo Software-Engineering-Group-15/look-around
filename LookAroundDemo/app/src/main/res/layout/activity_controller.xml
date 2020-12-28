@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:jp="http://schemas.android.com/apk/res-auto"
+    android:background="#cdcdcd">
+    <com.example.lookarounddemo.NoScrollViewPager
+        android:id="@+id/vp_main"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="56dp"
+        android:layout_height="match_parent"
+        ></com.example.lookarounddemo.NoScrollViewPager>
+    <com.jpeng.jptabbar.JPTabBar
+        android:id="@+id/tabbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_bg"
+        jp:TabMiddleView="@layout/view_mitem"
+        jp:TabMiddleBottomDis="15dp"
+        jp:TabAnimate="Scale"
+        />
+</RelativeLayout>
