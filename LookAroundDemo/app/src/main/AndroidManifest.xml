@@ -16,7 +16,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LookAroundDemo">
-        android:supportsRtl = "true
         <provider package="com.example.lookarounddemo"
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.lookarounddemo.fileprovider"

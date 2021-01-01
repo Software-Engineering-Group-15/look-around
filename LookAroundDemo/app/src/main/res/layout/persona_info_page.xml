@@ -12,7 +12,8 @@
     <com.example.lookarounddemo.widget.TitleLayout
         android:id="@+id/tl_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        />
     <View
         android:id="@+id/line_top"
         android:layout_width="match_parent"
@@ -60,38 +61,13 @@
         android:id="@+id/ig_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:edt_hint_content="@string/my_name"
-        app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="昵称" />
-
-    <com.example.lookarounddemo.widget.ItemGroup
-        android:id="@+id/ig_phone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:edt_hint_content="1"
-        app:jt_visible="false"
-        app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="手机号" />
-    <com.example.lookarounddemo.widget.ItemGroup
-        android:id="@+id/ig_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:edt_hint_content="1"
-        app:jt_visible="false"
-        app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="邮箱" />
-    <com.example.lookarounddemo.widget.ItemGroup
-        android:id="@+id/ig_post"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         app:edt_hint_content=""
         app:paddingLeft="@dimen/padding_left_and_right"
-        app:title="收藏动态" />
+        app:title="用户名"
+        app:edt_hint_text_color="@color/black"
+        app:line_color="@color/white"
+        app:edt_text_size = "6sp"
 
-    <ImageView
-        android:id="@+id/picture"
-        android:layout_width="181dp"
-        android:layout_height="202dp"
-        android:layout_gravity="center_horizontal" />
+        />
 </LinearLayout>
 

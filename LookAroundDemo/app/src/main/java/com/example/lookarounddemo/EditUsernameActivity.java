@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.lookarounddemo.data.User;
 import com.example.lookarounddemo.widget.ItemGroup;
 
 public class EditUsernameActivity extends AppCompatActivity {
@@ -30,6 +31,7 @@ public class EditUsernameActivity extends AppCompatActivity {
         edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                User.setName(edit_name.getText().toString());
                 Intent intent = new Intent(EditUsernameActivity.this, ControllerActivity.class);
                 startActivity(intent);
             }

@@ -34,6 +34,7 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.lookarounddemo.data.User;
 import com.example.lookarounddemo.widget.ItemGroup;
 import com.example.lookarounddemo.widget.RoundImageView;
 import com.jpeng.jptabbar.JPTabBar;
@@ -45,8 +46,12 @@ import static android.app.Activity.RESULT_OK;
  * Created by jpeng on 16-11-14.
  */
 public class UserPager extends Fragment implements View.OnClickListener {
-
+    public static String userName = "";
     private static final String TAG = "";
+    public static String my_image = "";
+    public static int flag = 0;
+    public static int flag_register = 0;
+    public static int flag_image = 0;
     private ImageView vi;
     private ImageView back;
     private FrameLayout phone;
@@ -66,19 +71,21 @@ public class UserPager extends Fragment implements View.OnClickListener {
     }
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        image = (RoundImageView) getActivity().findViewById(R.id.ri_portrait);
+        picture = getActivity().findViewById(R.id.ri_portrait);
         ItemGroup t = this.getView().findViewById(R.id.ig_name);
-        t.getContentEdt().setText("test");
-        phone = (FrameLayout) getActivity().findViewById(R.id.ig_phone);
-        phone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("phone");
-                //Intent intent = new Intent(getActivity(),ControllerActivity.class);
-                //startActivity(intent);
-                //ControllerActivity activity = (ControllerActivity) getActivity();
-                //activity.edit_name();
-            }
-        });
+        if (UserPager.flag == 0){
+            UserPager.flag = 1;
+            t.getContentEdt().setText(User.getName());
+        }
+        if (UserPager.flag == 1){
+            t.getContentEdt().setText(User.getName());
+        }
+        if(flag_image == 1){
+            Bitmap bitmap = BitmapFactory.decodeFile(my_image);
+            picture.setImageBitmap(bitmap);
+
+        }
         edit = (FrameLayout) getActivity().findViewById(R.id.ig_name);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,8 +102,6 @@ public class UserPager extends Fragment implements View.OnClickListener {
                 activity.setCurrentItem(0);
             }
         });
-        image = (RoundImageView) getActivity().findViewById(R.id.ri_portrait);
-        picture = getActivity().findViewById(R.id.ri_portrait);
         image.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -104,6 +109,7 @@ public class UserPager extends Fragment implements View.OnClickListener {
                     ActivityCompat.requestPermissions((ControllerActivity)getActivity(),new
                             String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
                 }else{
+                    flag_image = 1;
                     openAlbum();
                 }
             }
@@ -118,6 +124,7 @@ public class UserPager extends Fragment implements View.OnClickListener {
         switch(requestCode){
             case 1:
                 if(grantResults.length > 0&& grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    flag_image = 1;
                     openAlbum();
                 }else{
                     Toast.makeText(getActivity(),"You denied the permission",Toast.LENGTH_SHORT).show();
@@ -144,7 +151,6 @@ public class UserPager extends Fragment implements View.OnClickListener {
                 String id = docId.split(":")[1];
                 String selection = MediaStore.Images.Media._ID + "=" + id;
                 imagePath = getImagePath(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,selection);
-
             }else if("com.android.providers.downloads.documents".equals(uri.getAuthority())){
                 Uri contentUri = ContentUris.withAppendedId(Uri.parse("content://downloads/public_downloads"),Long.valueOf(docId));
                 imagePath = getImagePath(contentUri,null);
@@ -155,6 +161,7 @@ public class UserPager extends Fragment implements View.OnClickListener {
             else if ("file".equalsIgnoreCase(uri.getScheme())){
                 imagePath = uri.getPath();
             }
+            my_image = imagePath;
             displayImage(imagePath);
         }
     }
@@ -172,18 +179,17 @@ public class UserPager extends Fragment implements View.OnClickListener {
     private void displayImage(String imagePath){
         if (imagePath != null){
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            System.out.println("bitmap:" + bitmap.toString());
+            System.out.println("imagePath:" + imagePath);
             picture.setImageBitmap(bitmap);
         }else{
             Toast.makeText(getActivity(),"failed to get image",Toast.LENGTH_SHORT).show();
         }
     }
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View view) {
         JPTabBar tabBar = (JPTabBar) ((Activity)getContext()).findViewById(R.id.tabbar);
         tabBar.setTabTypeFace("fonts/Jaden.ttf");
-
     }
-
 }

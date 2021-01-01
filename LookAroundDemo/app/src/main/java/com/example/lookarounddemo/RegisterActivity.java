@@ -10,8 +10,12 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.example.lookarounddemo.data.User;
 
 import org.json.JSONObject;
 
@@ -24,10 +28,20 @@ import java.util.HashMap;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String TAG = "";
+    public static String username = "";
+    public static int flag = 0;
+    private boolean ifsuccess = true;
+    private boolean ifsuccess2 = false;
+    private boolean ifServer = true;
     private EditText reg_input_useName;
     private EditText reg_input_phonenum;
     private EditText reg_input_password;
     private EditText reg_input_password_again;
+    private TextView reg_failed1;
+    private TextView reg_failed2;
+    private TextView reg_failed3;
+    private TextView reg_failed4;
+    private TextView reg_failed5;
     private HashMap<String, String> stringHashMap;
     Handler mHandler;
     @Override
@@ -35,26 +49,78 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         reg_input_useName = (EditText) findViewById(R.id.reg_input_username);
-        reg_input_phonenum = (EditText) findViewById(R.id.reg_input_phonenum);
+        //reg_input_phonenum = (EditText) findViewById(R.id.reg_input_phonenum);
         reg_input_password = (EditText) findViewById(R.id.reg_input_password);
         reg_input_password_again = (EditText) findViewById(R.id.reg_input_password_again);
+        reg_failed1 = (TextView) findViewById(R.id.reg_failed3);
+        reg_failed2 = (TextView) findViewById(R.id.reg_failed5);
+        reg_failed3 = (TextView) findViewById(R.id.reg_failed6);
+        reg_failed4 = (TextView) findViewById(R.id.reg_failed7);
+        reg_failed5 = (TextView) findViewById(R.id.reg_failed8);
 //        mHandler = new Handler();//创建Handler
         stringHashMap = new HashMap<>();
     }
 
     public void login(View view){
-        stringHashMap.put("email", reg_input_phonenum.getText().toString());
+        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(getCurrentFocus()
+                                .getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
         stringHashMap.put("password", reg_input_password.getText().toString());
-        stringHashMap.put("userName", reg_input_useName.getText().toString());
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-        //new Thread(postRun).start();//开启新线
+        stringHashMap.put("username", reg_input_useName.getText().toString());
+        username = reg_input_useName.getText().toString();
+        //Intent intent = new Intent(this, LoginActivity.class);
+        //startActivity(intent);
+        if(!reg_input_useName.getText().toString().equals("") && !reg_input_password.getText().toString().equals("") && reg_input_password.getText().toString().equals(reg_input_password_again.getText().toString())){
+            try {
+                ifsuccess = true;
+                ifsuccess2 = false;
+                Thread thread = new Thread(postRun);
+                thread.start();//开启新线程
+                thread.join(2000);
+                while(ifsuccess){
+                    if(ifsuccess2)
+                        break;
+                }
+                if(!ifsuccess2) {
+                    reg_failed1.setVisibility(View.VISIBLE);
+                    reg_failed3.setVisibility(View.GONE);
+                    reg_failed4.setVisibility(View.GONE);
+                    reg_failed2.setVisibility(View.VISIBLE);
+                    reg_failed5.setVisibility(View.GONE);
+                }
+                if(!ifServer){
+                    reg_failed1.setVisibility(View.VISIBLE);
+                    reg_failed3.setVisibility(View.GONE);
+                    reg_failed4.setVisibility(View.GONE);
+                    reg_failed2.setVisibility(View.GONE);
+                    reg_failed5.setVisibility(View.VISIBLE);
+                }
+            } catch (InterruptedException e) {
+                reg_failed1.setVisibility(View.VISIBLE);
+                reg_failed3.setVisibility(View.GONE);
+                reg_failed4.setVisibility(View.GONE);
+                reg_failed2.setVisibility(View.GONE);
+                reg_failed5.setVisibility(View.VISIBLE);
+            }
+        }
+        else{
+            if(reg_input_useName.getText().toString().equals("") || reg_input_password.getText().toString().equals("")){
+                reg_failed1.setVisibility(View.VISIBLE);
+                reg_failed2.setVisibility(View.GONE);
+                reg_failed4.setVisibility(View.GONE);
+                reg_failed3.setVisibility(View.VISIBLE);
+                reg_failed5.setVisibility(View.GONE);
+            }
+            else{
+                reg_failed1.setVisibility(View.VISIBLE);
+                reg_failed2.setVisibility(View.GONE);
+                reg_failed3.setVisibility(View.GONE);
+                reg_failed4.setVisibility(View.VISIBLE);
+                reg_failed5.setVisibility(View.GONE);
+            }
+        }
 
-//        new Thread() {
-//            public void run() {
-//                mHandler.post(postRun);
-//            }
-//        }.start();
     }
     Runnable postRun = new Runnable() {
 
@@ -70,7 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
         String result = "";
         try {
 
-            String baseUrl = "http://115.27.199.59:8080/user/register";
+            String baseUrl = "http://39.98.75.17/register";
             //合成参数
             StringBuilder tempParams = new StringBuilder();
             // 新建一个URL对象
@@ -96,48 +162,40 @@ public class RegisterActivity extends AppCompatActivity {
             // POST请求
             DataOutputStream out = new DataOutputStream(urlConn.getOutputStream());
             JSONObject obj = new JSONObject();
-            obj.accumulate("email",paramsMap.get("email"));
-            obj.accumulate("userName",paramsMap.get("userName"));
+            obj.accumulate("username",paramsMap.get("username"));
             obj.accumulate("password",paramsMap.get("password"));
             String json = java.net.URLEncoder.encode(obj.toString(), "utf-8");
-            out.writeBytes(json);
+            out.writeBytes(obj.toString());
             out.flush();
             out.close();
 
             // 判断请求是否成功
-            if (urlConn.getResponseCode() == 200) {
+            if (urlConn.getResponseCode() == 200 && urlConn.getHeaderField("Authorization")!=null) {
                 // 获取返回的数据
+                flag = 1;
+                ifsuccess = true;
+                ifsuccess2 = true;
+                ifServer = true;
+                String t = urlConn.getHeaderField("Authorization");
+                Log.e(TAG, "Post方式请求成功，Authorization--->" + t);
                 String results = streamToString(urlConn.getInputStream());
                 Log.e(TAG, "Post方式请求成功，result--->" + results);
+                User.setName(reg_input_useName.getText().toString());
                 Intent intent = new Intent(this, ControllerActivity.class);
                 startActivity(intent);
             } else {
+                ifsuccess = false;
+                ifsuccess2 = false;
+                ifServer = true;
                 Log.e(TAG, "Post方式请求失败");
                 /* 创建AlertDialog对象并显示 */
-                final AlertDialog alertDialog = new AlertDialog.Builder(RegisterActivity.this).create();
-                alertDialog.show();
-                /* 添加对话框自定义布局 */
-                alertDialog.setContentView(R.layout.register_pop);
-                /* 获取对话框窗口 */
-                Window window = alertDialog.getWindow();
-                /* 设置显示窗口的宽高 */
-                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                /* 设置窗口显示位置 */
-                window.setGravity(Gravity.CENTER);
-                /* 通过window找布局里的控件 */
-                window.findViewById(R.id.login).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.e("log", "进入onclick注册函数体内");
-                        // 隐藏对话框
-                        alertDialog.dismiss();
-                        //自己进行其他的处理
-                    }
-                });
+
             }
             // 关闭连接
             urlConn.disconnect();
         } catch (Exception e) {
+            ifsuccess = false;
+            ifServer = false;
             Log.e(TAG, e.toString());
         }
     }
