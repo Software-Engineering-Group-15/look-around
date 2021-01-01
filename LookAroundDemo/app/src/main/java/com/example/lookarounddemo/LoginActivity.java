@@ -11,9 +11,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.lookarounddemo.data.User;
 
 import org.json.JSONObject;
 
@@ -36,8 +40,14 @@ import java.util.Map;
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "";
+    private boolean ifsuccess = true;
+    private boolean ifsuccess2 = false;
+    private boolean ifServer = true;
     private EditText log_input_phonenum;
     private EditText log_input_password;
+    private TextView login_failed1;
+    private TextView login_failed2;
+    private TextView login_failed3;
     private HashMap<String, String> stringHashMap;
     Handler mHandler;
 
@@ -45,6 +55,9 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        login_failed1 = (TextView) findViewById(R.id.login_failed);
+        login_failed2 = (TextView) findViewById(R.id.login_failed2);
+        login_failed3 = (TextView) findViewById(R.id.login_failed3);
         log_input_phonenum = (EditText) findViewById(R.id.log_input_phonenum);
         log_input_password = (EditText) findViewById(R.id.log_input_password);
 //        mHandler = new Handler();//创建Handler
@@ -52,11 +65,42 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void login_finish(View view){
+        ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(getCurrentFocus()
+                                .getWindowToken(),
+                        InputMethodManager.HIDE_NOT_ALWAYS);
         stringHashMap.put("username", log_input_phonenum.getText().toString());
         stringHashMap.put("password", log_input_password.getText().toString());
-        Intent intent = new Intent(this, ControllerActivity.class);
-        startActivity(intent);
-//        new Thread(postRun).start();//开启新线程
+//        log_input_phonenum.clearFocus();
+//        log_input_password.clearFocus();
+//        Intent intent = new Intent(this, ControllerActivity.class);
+//        startActivity(intent);
+        try {
+            ifsuccess = true;
+            ifsuccess2 = false;
+            Thread thread = new Thread(postRun);
+            thread.start();//开启新线程
+            thread.join(2000);
+            while(ifsuccess){
+                if(ifsuccess2)
+                    break;
+            }
+            if(!ifsuccess2){
+                login_failed1.setVisibility(View.VISIBLE);
+                login_failed2.setVisibility(View.VISIBLE);
+                login_failed3.setVisibility(View.GONE);
+            }
+            if(!ifServer){
+                login_failed1.setVisibility(View.VISIBLE);
+                login_failed2.setVisibility(View.GONE);
+                login_failed3.setVisibility(View.VISIBLE);
+            }
+
+        } catch (InterruptedException e) {
+            login_failed1.setVisibility(View.VISIBLE);
+            login_failed2.setVisibility(View.VISIBLE);
+            login_failed3.setVisibility(View.GONE);
+        }
 
 //         new Thread() {
 //            public void run() {
@@ -131,13 +175,20 @@ public class LoginActivity extends AppCompatActivity {
             Log.e("uuu",p+"ooo");
             if (urlConn.getResponseCode() == 200) {
                 // 获取返回的数据
+                ifsuccess = true;
+                ifsuccess2 = true;
+                ifServer = true;
                 Map<String, List<String>> results = urlConn.getHeaderFields();
                 System.out.println("results:" + results);
                 //Log.e(TAG, "Post方式请求成功，result--->" + results);
+                User.setName(log_input_phonenum.getText().toString());
                 Intent intent = new Intent(this, ControllerActivity.class);
                 startActivity(intent);
             } else {
                 Log.e(TAG, "Post方式请求失败");
+                ifsuccess = false;
+                ifServer = true;
+                ifsuccess2 = false;
                 // 创建AlertDialog对象并显示
                 /*final AlertDialog alertDialog = new AlertDialog.Builder(LoginActivity.this).create();
                 alertDialog.show();
@@ -159,11 +210,12 @@ public class LoginActivity extends AppCompatActivity {
                         //自己进行其他的处理
                     }
                 });*/
-                Toast.makeText(getApplicationContext(), "登陆失败！请核对信息！", Toast.LENGTH_SHORT).show();
             }
             // 关闭连接
             urlConn.disconnect();
         } catch (Exception e) {
+            ifsuccess = false;
+            ifServer = false;
             Log.e(TAG, e.toString());
         }
     }
